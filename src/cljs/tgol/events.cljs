@@ -28,3 +28,28 @@
   (fn-traced [db _]
     (assoc db :board 
            (game/step (:board db)))))
+
+(re-frame/reg-event-fx
+  :start-tgol
+  (fn-traced [{:keys [db]} _]
+             {:interval {:action :start
+                         :id     :tgol
+                         :frequency 1000
+                         :event [:tgol-step]}
+              :db db}))
+              
+(re-frame/reg-event-fx
+  :stop-tgol
+  (fn-traced [{:keys [ db ]} _]
+             {:interval {:action :stop
+                         :id     :tgol}
+              :db db}))
+
+(re-frame.core/reg-fx        ;; the re-frame API for registering effect handlers
+  :interval                  ;; the effect id
+  (let [live-intervals (atom {})]                 ;; storage for live intervals
+    (fn [{:keys [action id frequency event]}]     ;; the handler
+      (if (= action :start) 
+        (swap! live-intervals assoc id (js/setInterval #(re-frame/dispatch event) frequency)) 
+        (do (js/clearInterval (get @live-intervals id)) 
+            (swap! live-intervals dissoc id))))))
