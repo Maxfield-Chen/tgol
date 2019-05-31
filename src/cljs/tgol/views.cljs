@@ -20,13 +20,16 @@
                 :class (if cell-alive? "cell cell-alive" "cell cell-dead")
                 :onClick #(re-frame/dispatch [:toggle-cell x y])}]))
 
-(defn step-button []
-  [:button {:class "step-button"}])
+(defn tgol-step []
+  [:button {:class "tgol-step"
+            :onClick #(re-frame/dispatch [:tgol-step])} "Step"])
 
 (defn tgol-board []
-  [:div {:class "flex-grid"}
+  [:div
+   [tgol-step]
+   [:div {:class "flex-grid"}
       (doall (map (fn [col] ^{:key col} [:div {:class "col"}
-                    (doall (map #(cell (+ % (* col db/x))) (range db/x)))]) (range db/y)))])
+                    (doall (map #(cell (+ % (* col db/x))) (range db/x)))]) (range db/y)))]])
 
 
 ;; home + cells
