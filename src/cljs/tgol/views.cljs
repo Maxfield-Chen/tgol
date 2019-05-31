@@ -31,7 +31,6 @@
       (doall (map (fn [col] ^{:key col} [:div {:class "col"}
                     (doall (map #(cell (+ % (* col db/x))) (range db/x)))]) (range db/y)))]])
 
-
 ;; home + cells
 
 (defn home-panel []

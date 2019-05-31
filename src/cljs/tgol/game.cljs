@@ -15,7 +15,9 @@
                         (let [dead? (not (get-in board [y x]))
                               alive? (not dead?)
                               n (neighbors (count col) x y)
-                              nc (count (remove false? (map (fn [[x y]] ( get-in board [y x])) n)))]
+                              nc (count (remove false? 
+                                                (map (fn [[x y]] 
+                                                       (get-in board [y x])) n)))]
                           (cond  
                           ; Birth if 3 neighbors
                           (and dead? (= nc 3)) true
