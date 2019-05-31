@@ -1,4 +1,5 @@
 /nashorn_code_cache
+/.cljs_nashorn_repl
 /*.log
 /target
 /*-init.clj

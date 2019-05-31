@@ -20,6 +20,7 @@
   (fn-traced [db [_ x y]]
     (assoc db :board
       (update-in (:board db) [y x]
+                 #(not %)))))
 
 (re-frame/reg-event-db
   :kill-cell
