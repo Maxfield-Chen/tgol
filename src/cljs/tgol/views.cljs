@@ -3,25 +3,31 @@
    [re-frame.core :as re-frame]
    [breaking-point.core :as bp]
    [tgol.subs :as subs]
-   ))
+   [tgol.db :as db]))
 
-(def x 20)
-(def y 20)
+;; TGOL items
 
+(defn- idx->2d [idx]
+  (let [y (quot idx db/x)
+        x (rem idx db/x)]
+    [x y]))
 
-;; home
 (defn cell [id]
-  [:button {:class "cell"
-            :class "cell-alive"
-            :id id}])
+  (let [board (re-frame/subscribe [::subs/board])
+        [x y] (idx->2d id)
+        cell-alive? (get-in @board [y x])]
+    ^{:key id} [:button {:id id
+                :class (if cell-alive? "cell cell-alive" "cell cell-dead")
+                :onClick #(re-frame/dispatch [:toggle-cell x y])}]))
 
 (defn tgol-board []
   [:div {:class "flex-grid"}
-      (map (fn [_] [:div {:class "col"}
-                    (map #(cell %) (range x))]) (range y))])
+      (doall (map (fn [col] ^{:key col} [:div {:class "col"}
+                    (doall (map #(cell (+ % (* col db/x))) (range db/x)))]) (range db/y)))])
 
 
 ;; home + cells
+
 (defn home-panel []
   (let [name (re-frame/subscribe [::subs/name])]
     [:div 

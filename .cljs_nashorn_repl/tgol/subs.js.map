@@ -1,0 +1,1 @@
+{"version":3,"file":"\/home\/nihliphobe\/projects\/clojure\/tgol\/.cljs_nashorn_repl\/tgol\/subs.js","sources":["subs.cljs"],"lineCount":15,"mappings":";AAAA;;;AAIA,gCAAA,hCAACA,yGAEA,WAAKC;AAAL,AACE,OAAA,sFAAQA;;AAEX,gCAAA,hCAACD,sGAEA,WAAKC;AAAL,AACE,OAAA,mFAAOA;;AAEV,gCAAA,hCAACD,uHAEA,WAAKC,GAAGC;AAAR,AACE,OAAA,oGAAeD","names":["re-frame.core\/reg-sub","db","_"]}

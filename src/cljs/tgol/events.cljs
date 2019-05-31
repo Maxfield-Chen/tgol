@@ -14,3 +14,24 @@
  ::set-active-panel
  (fn-traced [db [_ active-panel]]
    (assoc db :active-panel active-panel)))
+
+(re-frame/reg-event-db
+  :toggle-cell
+  (fn-traced [db [_ x y]]
+    (assoc db :board
+      (update-in (:board db) [y x]
+
+(re-frame/reg-event-db
+  :kill-cell
+  (fn-traced [db [_ x y]]
+    (assoc db :board
+      (update-in (:board db) [y x]
+        (fn [_] false)))))
+
+
+(re-frame/reg-event-db
+  :birth-cell
+  (fn-traced [db [_ x y]]
+    (assoc db :board
+      (update-in (:board db) [y x]
+        (fn [_] true)))))
