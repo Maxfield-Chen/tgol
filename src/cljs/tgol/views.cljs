@@ -3,18 +3,14 @@
    [re-frame.core :as re-frame]
    [breaking-point.core :as bp]
    [tgol.subs :as subs]
+   [tgol.game :as game]
    [tgol.db :as db]))
 
 ;; TGOL items
 
-(defn- idx->2d [idx]
-  (let [y (quot idx db/x)
-        x (rem idx db/x)]
-    [x y]))
-
 (defn cell [id]
   (let [board (re-frame/subscribe [::subs/board])
-        [x y] (idx->2d id)
+        [x y] (game/idx->2d id)
         cell-alive? (get-in @board [y x])]
     ^{:key id} [:button {:id id
                 :class (if cell-alive? "cell cell-alive" "cell cell-dead")

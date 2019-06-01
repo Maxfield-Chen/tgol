@@ -1,4 +1,6 @@
-(ns tgol.game)
+(ns tgol.game
+  (:require
+    [tgol.db :as db]))
 
 (defn- neighbors [size x y]
   (let [deltas (for [x (range -1 2)
@@ -8,6 +10,12 @@
     (filter (fn [new-xy]
               (every? #(< -1 % size) new-xy))
             (map #(mapv + [x y] %) deltas))))
+
+
+(defn idx->2d [idx]
+  (let [y (quot idx db/x)
+        x (rem idx db/x)]
+    [x y]))
 
 (defn- rand-bool [] (< (rand-int 20) 3))
 
