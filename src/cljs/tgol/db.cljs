@@ -8,4 +8,6 @@
 
 (def default-db
   {:name "re-frame"
-   :board (vec (repeat y (vec (repeat x false))))})
+   :board (vec (repeat y (vec (repeat x false))))
+   :worlds []
+   :auto-board nil})

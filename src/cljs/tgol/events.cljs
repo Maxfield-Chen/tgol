@@ -24,8 +24,19 @@
                  #(not %)))))
 
 (re-frame/reg-event-db
+  :tgol-save
+  (fn-traced [db [_ new-world]]
+    (assoc db :worlds (conj (:worlds db) new-world))))
+
+
+(re-frame/reg-event-db
+  :tgol-restore
+  (fn-traced [db [_ id]]
+    (assoc db :board (get (:worlds db) id))))
+
+(re-frame/reg-event-db
   :tgol-step
-  (fn [db _]
+  (fn-traced [db _]
     (assoc db :board 
            (game/step (:board db)))))
 
@@ -37,12 +48,13 @@
 
 (re-frame/reg-event-fx
   :start-tgol
-  (fn [{:keys [db]} _]
+  (fn [{:keys [db]} [_ new-world]]
              {:interval {:action :start
                          :id     :tgol
                          :frequency 100
                          :event [:tgol-step]}
-              :db db}))
+              :db (assoc db :auto-board
+                         new-world)}))
               
 (re-frame/reg-event-fx
   :stop-tgol

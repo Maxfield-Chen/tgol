@@ -20,6 +20,20 @@
                 :class (if cell-alive? "cell cell-alive" "cell cell-dead")
                 :onClick #(re-frame/dispatch [:toggle-cell x y])}]))
 
+(defn tgol-autosave []
+  (let [autosave (re-frame/subscribe [::subs/auto-board])]
+  [:div {:class "tgol-autosave"}
+   [:button {:class "tgol-button"
+             :onClick #(re-frame/dispatch [:tgol-save @autosave])}
+   "Save Initial State"]]))
+
+(defn tgol-save []
+  (let [board (re-frame/subscribe [::subs/board])]
+  [:div {:class "tgol-save"}
+   [:button {:class "tgol-button"
+             :onClick #(re-frame/dispatch [:tgol-save @board])}
+   "Save State"]]))
+
 (defn tgol-randomize []
   [:div {:class "tgol-random"}
    [:button {:class "tgol-button"
@@ -33,15 +47,25 @@
    "Stop"]])
 
 (defn tgol-start []
+  (let [board (re-frame/subscribe [::subs/board])]
   [:div {:class "tgol-start"}
    [:button {:class "tgol-button"
-             :onClick #(re-frame/dispatch [:start-tgol])}
-    "Start"]])
+             :onClick #(re-frame/dispatch [:start-tgol @board])}
+    "Start"]]))
 
 (defn tgol-step []
   [:div {:class "tgol-step"}
    [:button {:class "tgol-button"
             :onClick #(re-frame/dispatch [:tgol-step])} "Step"]])
+
+(defn tgol-worlds []
+  (let [worlds (re-frame/subscribe [::subs/worlds])]
+  [:div {:class "tgol-worlds"}
+    (doall (map-indexed (fn [idx w]
+                          [:button {:class "tgol-button"
+                                    :id idx
+                                    :onClick #(re-frame/dispatch [:tgol-restore idx])}
+                           (str "Restore World " idx)]) @worlds))]))
 
 (defn tgol-board []
   [:div {:class "tgol-board"}
@@ -49,7 +73,10 @@
      [tgol-step]
      [tgol-start]
      [tgol-stop]
+     [tgol-save]
+     [tgol-autosave]
      [tgol-randomize]
+     [tgol-worlds]
    ]
    [:div {:class "flex-grid"}
       (doall (map (fn [col] ^{:key col} [:div {:class "col"}
