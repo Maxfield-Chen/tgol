@@ -25,22 +25,28 @@
 
 (re-frame/reg-event-db
   :tgol-step
-  (fn-traced [db _]
+  (fn [db _]
     (assoc db :board 
            (game/step (:board db)))))
 
+(re-frame/reg-event-db
+  :tgol-random
+  (fn-traced [db _]
+    (assoc db :board 
+           (game/randomize (:board db)))))
+
 (re-frame/reg-event-fx
   :start-tgol
-  (fn-traced [{:keys [db]} _]
+  (fn [{:keys [db]} _]
              {:interval {:action :start
                          :id     :tgol
-                         :frequency 1000
+                         :frequency 100
                          :event [:tgol-step]}
               :db db}))
               
 (re-frame/reg-event-fx
   :stop-tgol
-  (fn-traced [{:keys [ db ]} _]
+  (fn [{:keys [db]} _]
              {:interval {:action :stop
                          :id     :tgol}
               :db db}))

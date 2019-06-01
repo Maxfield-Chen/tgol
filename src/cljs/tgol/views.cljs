@@ -20,6 +20,12 @@
                 :class (if cell-alive? "cell cell-alive" "cell cell-dead")
                 :onClick #(re-frame/dispatch [:toggle-cell x y])}]))
 
+(defn tgol-randomize []
+  [:div {:class "tgol-random"}
+   [:button {:class "tgol-button"
+             :onClick #(re-frame/dispatch [:tgol-random])}
+   "Randomize!"]])
+
 (defn tgol-stop []
   [:div {:class "tgol-stop"}
    [:button {:class "tgol-button"
@@ -43,6 +49,7 @@
      [tgol-step]
      [tgol-start]
      [tgol-stop]
+     [tgol-randomize]
    ]
    [:div {:class "flex-grid"}
       (doall (map (fn [col] ^{:key col} [:div {:class "col"}

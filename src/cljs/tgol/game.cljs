@@ -9,6 +9,12 @@
               (every? #(< -1 % size) new-xy))
             (map #(mapv + [x y] %) deltas))))
 
+(defn- rand-bool [] (< (rand-int 20) 3))
+
+(defn randomize [board]
+  (mapv (fn [col] (mapv (fn [cell]
+                        (rand-bool)) col)) board))
+
 (defn step [board]
   (vec (map-indexed (fn [y col] 
          (vec (map-indexed (fn [x cell]

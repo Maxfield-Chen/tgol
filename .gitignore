@@ -1,3 +1,5 @@
+.lein-repl-history
+.nrepl-port
 /nashorn_code_cache
 /.cljs_nashorn_repl
 /*.log
