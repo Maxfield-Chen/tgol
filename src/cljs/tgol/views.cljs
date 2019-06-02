@@ -16,6 +16,12 @@
                 :class (if cell-alive? "cell cell-alive" "cell cell-dead")
                 :onClick #(re-frame/dispatch [:toggle-cell x y])}]))
 
+(defn tgol-clear []
+  [:div {:class "tgol-clear"}
+   [:button {:class "tgol-button"
+             :onClick #(re-frame/dispatch [:tgol-clear])}
+    "Clear Board"]])
+
 (defn tgol-autosave []
   (let [autosave (re-frame/subscribe [::subs/auto-board])]
   [:div {:class "tgol-autosave"}
@@ -69,6 +75,7 @@
      [tgol-step]
      [tgol-start]
      [tgol-stop]
+     [tgol-clear]
      [tgol-save]
      [tgol-autosave]
      [tgol-randomize]

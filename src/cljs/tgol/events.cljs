@@ -24,6 +24,11 @@
                  #(not %)))))
 
 (re-frame/reg-event-db
+  :tgol-clear
+  (fn-traced [db [_ new-world]]
+    (assoc db :board (vec (repeat db/y (vec (repeat db/x false)))))))
+
+(re-frame/reg-event-db
   :tgol-save
   (fn-traced [db [_ new-world]]
     (assoc db :worlds (conj (:worlds db) new-world))))
