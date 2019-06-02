@@ -2,13 +2,23 @@
   (:require
     [tgol.db :as db]))
 
+;(defn- neighbors [size x y]
+  ;(let [deltas (for [x (range -1 2)
+                     ;y (range -1 2)
+                     ;:when (or (not= y 0) (not= x 0))]
+                 ;[x y])]
+    ;(filter (fn [new-xy]
+              ;(every? #(< -1 % size) new-xy))
+            ;(map #(mapv + [x y] %) deltas))))
+
 (defn- neighbors [size x y]
   (let [deltas (for [x (range -1 2)
                      y (range -1 2)
                      :when (or (not= y 0) (not= x 0))]
                  [x y])]
-    (filter (fn [new-xy]
-              (every? #(< -1 % size) new-xy))
+    (map (fn [[x y]]
+              [(if (> x db/x) (dec (mod x db/x)) (mod x db/x))
+               (if (> y db/y) (dec (mod y db/y)) (mod y db/y))])
             (map #(mapv + [x y] %) deltas))))
 
 
